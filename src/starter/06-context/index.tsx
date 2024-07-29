@@ -9,13 +9,21 @@ const Test = () => {
 };
 
 function Component() {
-  const context = useTheme();
-  // console.log(context);
+  const { theme, setTheme } = useTheme();
 
   return (
     <div>
       <h2>React & Typescript</h2>
-      <h2>Context API</h2>
+      <h2>{theme}</h2>
+      <button className="btn" onClick={() => setTheme("dark")}>
+        dark
+      </button>
+      <button className="btn" onClick={() => setTheme("light")}>
+        light
+      </button>
+      <button className="btn" onClick={() => setTheme("system")}>
+        system
+      </button>
     </div>
   );
 }

@@ -1,6 +1,13 @@
-import { createContext, PropsWithChildren, useContext } from "react";
+import { createContext, PropsWithChildren, useContext, useState } from "react";
 
-const ThemeProviderContext = createContext<{ name: string } | undefined>(
+type Theme = "dark" | "light" | "system";
+
+type ThemeProviderState = {
+  theme: Theme;
+  setTheme: (theme: Theme) => void;
+};
+
+const ThemeProviderContext = createContext<ThemeProviderState | undefined>(
   undefined
 );
 
@@ -13,9 +20,14 @@ export const useTheme = () => {
   return context;
 };
 
-const ThemeProvider = ({ children }: PropsWithChildren) => {
+const ThemeProvider = ({
+  children,
+  defaultTheme = "dark",
+}: PropsWithChildren<{ defaultTheme?: Theme }>) => {
+  const [theme, setTheme] = useState(defaultTheme);
+
   return (
-    <ThemeProviderContext.Provider value={{ name: "astro" }}>
+    <ThemeProviderContext.Provider value={{ theme, setTheme }}>
       {children}
     </ThemeProviderContext.Provider>
   );

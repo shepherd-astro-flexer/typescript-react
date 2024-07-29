@@ -1,4 +1,4 @@
-import Starter from "./starter/06-context";
+import Starter from "./starter/08-fetch-data";
 import Final from "./final/05-challenge";
 // import { useGlobal } from "./context";
 
