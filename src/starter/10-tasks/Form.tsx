@@ -14,6 +14,8 @@ const Form = ({ addTask }: FormProp) => {
 
     if (description === "") {
       alert("Please provide a description.");
+      // ! early return
+      return;
     }
 
     const task = {
@@ -23,6 +25,7 @@ const Form = ({ addTask }: FormProp) => {
     };
 
     addTask(task);
+    setDescription("");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
