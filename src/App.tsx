@@ -1,5 +1,5 @@
-import Starter from "./starter/08-fetch-data";
-import Final from "./final/05-challenge";
+import Starter from "./starter/10-tasks";
+import Final from "./final/10-tasks";
 // import { useGlobal } from "./context";
 
 function App() {
@@ -9,6 +9,7 @@ function App() {
   return (
     <main>
       <Starter />
+      {/* <Final /> */}
     </main>
   );
 }

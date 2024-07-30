@@ -1,65 +1,26 @@
-import { useEffect, useState } from "react";
-import { tourSchema, Tour } from "./types";
+import { useQuery } from "@tanstack/react-query";
+import { fetchTours } from "./types";
 
-const url = "https://www.course-api.com/react-tours-project";
+const Component = () => {
+  const {
+    isPending,
+    isError,
+    error,
+    data: tours,
+  } = useQuery({
+    queryKey: ["tours"],
+    queryFn: fetchTours,
+  });
 
-// type Tour = {
-//   id: string;
-//   image: string;
-//   info: string;
-//   name: string;
-//   price: string;
-//   something: string;
-// };
-
-function Component() {
-  const [tours, setTours] = useState<Tour[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error(`Status code error: ${response.status}`);
-        }
-        const rawData: Tour[] = await response.json();
-
-        const result = tourSchema.array().safeParse(rawData);
-
-        console.log(result);
-        if (!result.success) {
-          throw new Error("Failed...");
-        }
-
-        setTours(result.data);
-      } catch (error) {
-        const errorMsg =
-          error instanceof Error ? error.message : "There was error...";
-        console.log(errorMsg);
-        setIsError(errorMsg);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, []);
-
-  if (isLoading) {
-    return <h3>Loading...</h3>;
-  }
-
-  if (isError) {
-    return <h3>{isError}</h3>;
-  }
+  if (isPending) return <h3>Loading...</h3>;
+  if (isError) return <h3>Error: {error.message}</h3>;
 
   return (
     <div>
-      <h2>React & Typescript</h2>
-      <h2>Fetch Data</h2>
+      {tours.map((tour) => {
+        return <p key={tour.id}>{tour.name}</p>;
+      })}
     </div>
   );
-}
+};
 export default Component;
